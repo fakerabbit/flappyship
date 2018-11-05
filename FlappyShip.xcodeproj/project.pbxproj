@@ -15,6 +15,11 @@
 		AC2E1011218FADF2001C703B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC2E100F218FADF2001C703B /* Main.storyboard */; };
 		AC2E1013218FADF3001C703B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC2E1012218FADF3001C703B /* Assets.xcassets */; };
 		AC2E1016218FADF3001C703B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC2E1014218FADF3001C703B /* LaunchScreen.storyboard */; };
+		AC980772218FB01600A1A3FB /* CoinSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AC980771218FB01600A1A3FB /* CoinSound.mp3 */; };
+		AC980774218FB03300A1A3FB /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = AC980773218FB03300A1A3FB /* player.atlas */; };
+		AC980777218FB19600A1A3FB /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980776218FB19600A1A3FB /* MenuViewController.swift */; };
+		AC980779218FB1BA00A1A3FB /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980778218FB1BA00A1A3FB /* MenuView.swift */; };
+		AC98077E218FC49800A1A3FB /* Hermes-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AC98077D218FC49800A1A3FB /* Hermes-Regular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +33,11 @@
 		AC2E1012218FADF3001C703B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC2E1015218FADF3001C703B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC2E1017218FADF3001C703B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC980771218FB01600A1A3FB /* CoinSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = CoinSound.mp3; path = Resources/CoinSound.mp3; sourceTree = SOURCE_ROOT; };
+		AC980773218FB03300A1A3FB /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = player.atlas; path = Resources/player.atlas; sourceTree = SOURCE_ROOT; };
+		AC980776218FB19600A1A3FB /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		AC980778218FB1BA00A1A3FB /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		AC98077D218FC49800A1A3FB /* Hermes-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Hermes-Regular.otf"; path = "Resources/Fonts/Hermes-Regular.otf"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +54,8 @@
 		AC2E0FF9218FADF2001C703B = {
 			isa = PBXGroup;
 			children = (
+				AC980775218FB10100A1A3FB /* Screens */,
+				AC980770218FAFD600A1A3FB /* Resources */,
 				AC2E1004218FADF2001C703B /* FlappyShip */,
 				AC2E1003218FADF2001C703B /* Products */,
 			);
@@ -71,6 +83,34 @@
 				AC2E1017218FADF3001C703B /* Info.plist */,
 			);
 			path = FlappyShip;
+			sourceTree = "<group>";
+		};
+		AC980770218FAFD600A1A3FB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AC98077C218FC48F00A1A3FB /* Fonts */,
+				AC980773218FB03300A1A3FB /* player.atlas */,
+				AC980771218FB01600A1A3FB /* CoinSound.mp3 */,
+			);
+			name = Resources;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		AC980775218FB10100A1A3FB /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				AC980776218FB19600A1A3FB /* MenuViewController.swift */,
+				AC980778218FB1BA00A1A3FB /* MenuView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		AC98077C218FC48F00A1A3FB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				AC98077D218FC49800A1A3FB /* Hermes-Regular.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,8 +172,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC2E1011218FADF2001C703B /* Main.storyboard in Resources */,
+				AC980772218FB01600A1A3FB /* CoinSound.mp3 in Resources */,
 				AC2E1008218FADF2001C703B /* GameScene.sks in Resources */,
 				AC2E1013218FADF3001C703B /* Assets.xcassets in Resources */,
+				AC98077E218FC49800A1A3FB /* Hermes-Regular.otf in Resources */,
+				AC980774218FB03300A1A3FB /* player.atlas in Resources */,
 				AC2E1016218FADF3001C703B /* LaunchScreen.storyboard in Resources */,
 				AC2E100A218FADF2001C703B /* Actions.sks in Resources */,
 			);
@@ -146,9 +189,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC980779218FB1BA00A1A3FB /* MenuView.swift in Sources */,
 				AC2E100C218FADF2001C703B /* GameScene.swift in Sources */,
 				AC2E100E218FADF2001C703B /* GameViewController.swift in Sources */,
 				AC2E1006218FADF2001C703B /* AppDelegate.swift in Sources */,
+				AC980777218FB19600A1A3FB /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

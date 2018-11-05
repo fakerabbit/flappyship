@@ -20,6 +20,8 @@
 		AC980777218FB19600A1A3FB /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980776218FB19600A1A3FB /* MenuViewController.swift */; };
 		AC980779218FB1BA00A1A3FB /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980778218FB1BA00A1A3FB /* MenuView.swift */; };
 		AC98077E218FC49800A1A3FB /* Hermes-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AC98077D218FC49800A1A3FB /* Hermes-Regular.otf */; };
+		AC980781218FCD6300A1A3FB /* GameElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980780218FCD6300A1A3FB /* GameElements.swift */; };
+		AC980785218FE21300A1A3FB /* ship.atlas in Resources */ = {isa = PBXBuildFile; fileRef = AC980784218FE21300A1A3FB /* ship.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		AC980776218FB19600A1A3FB /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		AC980778218FB1BA00A1A3FB /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		AC98077D218FC49800A1A3FB /* Hermes-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Hermes-Regular.otf"; path = "Resources/Fonts/Hermes-Regular.otf"; sourceTree = SOURCE_ROOT; };
+		AC980780218FCD6300A1A3FB /* GameElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameElements.swift; sourceTree = "<group>"; };
+		AC980784218FE21300A1A3FB /* ship.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = ship.atlas; path = "New Group/ship.atlas"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,7 @@
 		AC2E0FF9218FADF2001C703B = {
 			isa = PBXGroup;
 			children = (
+				AC98077F218FCD5300A1A3FB /* Common */,
 				AC980775218FB10100A1A3FB /* Screens */,
 				AC980770218FAFD600A1A3FB /* Resources */,
 				AC2E1004218FADF2001C703B /* FlappyShip */,
@@ -75,8 +80,6 @@
 				AC2E1005218FADF2001C703B /* AppDelegate.swift */,
 				AC2E1007218FADF2001C703B /* GameScene.sks */,
 				AC2E1009218FADF2001C703B /* Actions.sks */,
-				AC2E100B218FADF2001C703B /* GameScene.swift */,
-				AC2E100D218FADF2001C703B /* GameViewController.swift */,
 				AC2E100F218FADF2001C703B /* Main.storyboard */,
 				AC2E1012218FADF3001C703B /* Assets.xcassets */,
 				AC2E1014218FADF3001C703B /* LaunchScreen.storyboard */,
@@ -89,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				AC98077C218FC48F00A1A3FB /* Fonts */,
+				AC980784218FE21300A1A3FB /* ship.atlas */,
 				AC980773218FB03300A1A3FB /* player.atlas */,
 				AC980771218FB01600A1A3FB /* CoinSound.mp3 */,
 			);
@@ -99,6 +103,8 @@
 		AC980775218FB10100A1A3FB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				AC2E100D218FADF2001C703B /* GameViewController.swift */,
+				AC2E100B218FADF2001C703B /* GameScene.swift */,
 				AC980776218FB19600A1A3FB /* MenuViewController.swift */,
 				AC980778218FB1BA00A1A3FB /* MenuView.swift */,
 			);
@@ -111,6 +117,14 @@
 				AC98077D218FC49800A1A3FB /* Hermes-Regular.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		AC98077F218FCD5300A1A3FB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				AC980780218FCD6300A1A3FB /* GameElements.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +193,7 @@
 				AC980774218FB03300A1A3FB /* player.atlas in Resources */,
 				AC2E1016218FADF3001C703B /* LaunchScreen.storyboard in Resources */,
 				AC2E100A218FADF2001C703B /* Actions.sks in Resources */,
+				AC980785218FE21300A1A3FB /* ship.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,6 +204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC980781218FCD6300A1A3FB /* GameElements.swift in Sources */,
 				AC980779218FB1BA00A1A3FB /* MenuView.swift in Sources */,
 				AC2E100C218FADF2001C703B /* GameScene.swift in Sources */,
 				AC2E100E218FADF2001C703B /* GameViewController.swift in Sources */,
@@ -342,6 +358,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 788WMGHEL8;
 				INFOPLIST_FILE = FlappyShip/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -360,6 +377,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 788WMGHEL8;
 				INFOPLIST_FILE = FlappyShip/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

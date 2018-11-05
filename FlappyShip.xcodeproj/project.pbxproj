@@ -22,6 +22,10 @@
 		AC98077E218FC49800A1A3FB /* Hermes-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = AC98077D218FC49800A1A3FB /* Hermes-Regular.otf */; };
 		AC980781218FCD6300A1A3FB /* GameElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980780218FCD6300A1A3FB /* GameElements.swift */; };
 		AC980785218FE21300A1A3FB /* ship.atlas in Resources */ = {isa = PBXBuildFile; fileRef = AC980784218FE21300A1A3FB /* ship.atlas */; };
+		AC980787218FE4D500A1A3FB /* ParallaxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980786218FE4D500A1A3FB /* ParallaxViewController.swift */; };
+		AC980789218FE4EC00A1A3FB /* ParallaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980788218FE4EC00A1A3FB /* ParallaxView.swift */; };
+		AC98078B218FF5BF00A1A3FB /* Fire.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC98078A218FF5BF00A1A3FB /* Fire.sks */; };
+		AC98078D218FFB7D00A1A3FB /* Bullet.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC98078C218FFB7D00A1A3FB /* Bullet.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +46,10 @@
 		AC98077D218FC49800A1A3FB /* Hermes-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Hermes-Regular.otf"; path = "Resources/Fonts/Hermes-Regular.otf"; sourceTree = SOURCE_ROOT; };
 		AC980780218FCD6300A1A3FB /* GameElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameElements.swift; sourceTree = "<group>"; };
 		AC980784218FE21300A1A3FB /* ship.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = ship.atlas; path = "New Group/ship.atlas"; sourceTree = SOURCE_ROOT; };
+		AC980786218FE4D500A1A3FB /* ParallaxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxViewController.swift; sourceTree = "<group>"; };
+		AC980788218FE4EC00A1A3FB /* ParallaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxView.swift; sourceTree = "<group>"; };
+		AC98078A218FF5BF00A1A3FB /* Fire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Fire.sks; sourceTree = "<group>"; };
+		AC98078C218FFB7D00A1A3FB /* Bullet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Bullet.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +92,8 @@
 				AC2E1012218FADF3001C703B /* Assets.xcassets */,
 				AC2E1014218FADF3001C703B /* LaunchScreen.storyboard */,
 				AC2E1017218FADF3001C703B /* Info.plist */,
+				AC98078A218FF5BF00A1A3FB /* Fire.sks */,
+				AC98078C218FFB7D00A1A3FB /* Bullet.sks */,
 			);
 			path = FlappyShip;
 			sourceTree = "<group>";
@@ -107,6 +117,8 @@
 				AC2E100B218FADF2001C703B /* GameScene.swift */,
 				AC980776218FB19600A1A3FB /* MenuViewController.swift */,
 				AC980778218FB1BA00A1A3FB /* MenuView.swift */,
+				AC980786218FE4D500A1A3FB /* ParallaxViewController.swift */,
+				AC980788218FE4EC00A1A3FB /* ParallaxView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -186,8 +198,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC2E1011218FADF2001C703B /* Main.storyboard in Resources */,
+				AC98078D218FFB7D00A1A3FB /* Bullet.sks in Resources */,
 				AC980772218FB01600A1A3FB /* CoinSound.mp3 in Resources */,
 				AC2E1008218FADF2001C703B /* GameScene.sks in Resources */,
+				AC98078B218FF5BF00A1A3FB /* Fire.sks in Resources */,
 				AC2E1013218FADF3001C703B /* Assets.xcassets in Resources */,
 				AC98077E218FC49800A1A3FB /* Hermes-Regular.otf in Resources */,
 				AC980774218FB03300A1A3FB /* player.atlas in Resources */,
@@ -209,6 +223,8 @@
 				AC2E100C218FADF2001C703B /* GameScene.swift in Sources */,
 				AC2E100E218FADF2001C703B /* GameViewController.swift in Sources */,
 				AC2E1006218FADF2001C703B /* AppDelegate.swift in Sources */,
+				AC980789218FE4EC00A1A3FB /* ParallaxView.swift in Sources */,
+				AC980787218FE4D500A1A3FB /* ParallaxViewController.swift in Sources */,
 				AC980777218FB19600A1A3FB /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

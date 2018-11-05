@@ -19,19 +19,19 @@ struct CollisionBitMask {
 extension GameScene {
     
     func createBird() -> SKSpriteNode {
-        //1
+
         let bird = SKSpriteNode(texture: SKTextureAtlas(named:"ship").textureNamed("ship1"))
         bird.size = CGSize(width: 50, height: 50)
         bird.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
-        //2
+
         bird.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.width / 2)
         bird.physicsBody?.linearDamping = 1.1
         bird.physicsBody?.restitution = 0
-        //3
+
         bird.physicsBody?.categoryBitMask = CollisionBitMask.birdCategory
         bird.physicsBody?.collisionBitMask = CollisionBitMask.pillarCategory | CollisionBitMask.groundCategory
         bird.physicsBody?.contactTestBitMask = CollisionBitMask.pillarCategory | CollisionBitMask.flowerCategory | CollisionBitMask.groundCategory
-        //4
+
         bird.physicsBody?.affectedByGravity = false
         bird.physicsBody?.isDynamic = true
         
@@ -171,5 +171,115 @@ extension GameScene {
     
     func random(min : CGFloat, max : CGFloat) -> CGFloat{
         return random() * (max - min) + min
+    }
+}
+
+enum BulletType {
+    case shipFired
+    case invaderFired
+}
+
+extension ParallaxView {
+    
+    func createShip() -> SKSpriteNode {
+        
+        let bird = SKSpriteNode(texture: SKTextureAtlas(named:"ship").textureNamed("ship1"))
+        bird.size = CGSize(width: 50, height: 50)
+        bird.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
+        
+        bird.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.width / 2)
+        bird.physicsBody?.linearDamping = 1.1
+        bird.physicsBody?.restitution = 0
+        
+        bird.physicsBody?.categoryBitMask = CollisionBitMask.birdCategory
+        bird.physicsBody?.collisionBitMask = CollisionBitMask.pillarCategory | CollisionBitMask.groundCategory
+        bird.physicsBody?.contactTestBitMask = CollisionBitMask.pillarCategory | CollisionBitMask.flowerCategory | CollisionBitMask.groundCategory
+        
+        bird.physicsBody?.affectedByGravity = false
+        bird.physicsBody?.isDynamic = true
+        
+        return bird
+    }
+    
+    func createSky() {
+        let topSky = SKSpriteNode(color: UIColor(hue: 0.55, saturation: 0.14, brightness: 0.97, alpha: 1), size: CGSize(width: frame.width, height: frame.height * 0.67))
+        topSky.anchorPoint = CGPoint(x: 0.5, y: 1)
+        
+        let bottomSky = SKSpriteNode(color: UIColor(hue: 0.55, saturation: 0.16, brightness: 0.96, alpha: 1), size: CGSize(width: frame.width, height: frame.height * 0.33))
+        bottomSky.anchorPoint = CGPoint(x: 0.5, y: 1)
+        
+        topSky.position = CGPoint(x: frame.midX, y: frame.height)
+        bottomSky.position = CGPoint(x: frame.midX, y: bottomSky.frame.height)
+        
+        addChild(topSky)
+        addChild(bottomSky)
+        
+        bottomSky.zPosition = -40
+        topSky.zPosition = -40
+    }
+    
+    func makeBullet(ofType bulletType: BulletType) -> SKNode {
+        var bullet: SKNode
+        
+        switch bulletType {
+        case .shipFired:
+            let particles = SKEmitterNode(fileNamed: "Bullet.sks")
+            particles?.name = kShipFiredBulletName
+            return particles!
+        case .invaderFired:
+            bullet = SKSpriteNode(color: SKColor.magenta, size: kBulletSize)
+            bullet.name = kInvaderFiredBulletName
+            break
+        }
+        
+        return bullet
+    }
+    
+    func fireBullet(bullet: SKNode, toDestination destination: CGPoint, withDuration duration: CFTimeInterval, andSoundFileName soundName: String) {
+        let bulletAction = SKAction.sequence([
+            SKAction.move(to: destination, duration: duration),
+            SKAction.wait(forDuration: 3.0 / 60.0),
+            SKAction.removeFromParent()
+            ])
+        
+        let soundAction = SKAction.playSoundFileNamed(soundName, waitForCompletion: true)
+        
+        bullet.run(SKAction.group([bulletAction, soundAction]))
+        
+        addChild(bullet)
+    }
+    
+    func fireShipBullets() {
+        //let existingBullet = childNode(withName: kShipFiredBulletName)
+        
+        if let ship = childNode(withName: kShipName) {
+            let bullet = makeBullet(ofType: .shipFired)
+            bullet.position = CGPoint(
+                x: ship.position.x,
+                y: ship.position.y + ship.frame.size.height - bullet.frame.size.height / 2
+            )
+            
+            let bulletDestination = CGPoint(
+                x: ship.position.x,
+                y: frame.size.height + bullet.frame.size.height / 2
+            )
+            
+            fireBullet(
+                bullet: bullet,
+                toDestination: bulletDestination,
+                withDuration: 1.0,
+                andSoundFileName: "CoinSound.mp3"
+            )
+        }
+    }
+    
+    func processUserTaps(forUpdate currentTime: CFTimeInterval) {
+
+        for tapCount in tapQueue {
+            if tapCount == 1 {
+                fireShipBullets()
+            }
+            tapQueue.remove(at: 0)
+        }
     }
 }

@@ -46,7 +46,8 @@ class MenuViewController: UIViewController, MenuViewDelegate {
     // MARK: MenuViewDelegate methods
     
     func MenuViewOnPlay(_ view: MenuView) {
-        let controller: GameViewController = GameViewController()
+        //let controller: GameViewController = GameViewController()
+        let controller: ParallaxViewController = ParallaxViewController()
         let appDel = UIApplication.shared.delegate! as! AppDelegate
         appDel.navController?.popViewController(animated: false)
         appDel.navController?.pushViewController(controller, animated: true)

@@ -16,6 +16,7 @@ import SpriteKit
 
 protocol MenuViewDelegate: class {
     func MenuViewOnPlay(_ view: MenuView)
+    func MenuViewOnPlay2(_ view: MenuView)
 }
 
 class MenuView: SKView {
@@ -34,6 +35,7 @@ class MenuView: SKView {
     fileprivate var cscene: SKScene?
     
     fileprivate var playBtn: UIButton?,
+                    play2Btn: UIButton?,
                     logoIv: UIImageView?
     
     // MARK: Init
@@ -65,6 +67,16 @@ class MenuView: SKView {
         playBtn?.addTarget(self, action: #selector(MenuView.onPlay(_:)), for: .touchUpInside)
         self.addSubview(playBtn!)
         
+        play2Btn = UIButton(frame: CGRect.zero)
+        play2Btn?.setTitle("Play 2", for: .normal)
+        play2Btn?.titleLabel?.font = UIFont(name: "Hermes-Regular", size: 52)
+        play2Btn?.setTitleColor(UIColor(red: 255/255, green: 111/255, blue: 60/255, alpha: 1), for: .normal)
+        play2Btn?.setTitleColor(UIColor(red: 255/255, green: 201/255, blue: 60/255, alpha: 1), for: .highlighted)
+        play2Btn?.sizeToFit()
+        play2Btn?.contentMode = .scaleAspectFit
+        play2Btn?.addTarget(self, action: #selector(MenuView.onPlay2(_:)), for: .touchUpInside)
+        self.addSubview(play2Btn!)
+        
         self.presentScene(cscene)
     }
     
@@ -86,6 +98,7 @@ class MenuView: SKView {
         
         logoIv?.frame = CGRect(x: pad, y: 50, width: w - pad * 2, height: logoIv!.frame.size.height)
         playBtn?.frame = CGRect(x: w/2 - playBtn!.frame.size.width/2, y: h/2 - playBtn!.frame.size.height/2, width: playBtn!.frame.size.width, height: playBtn!.frame.size.height)
+        play2Btn?.frame = CGRect(x: w/2 - play2Btn!.frame.size.width/2, y: playBtn!.frame.origin.y + 50, width: play2Btn!.frame.size.width, height: play2Btn!.frame.size.height)
     }
     
     // MARK: Public methods
@@ -93,6 +106,11 @@ class MenuView: SKView {
     @objc func onPlay(_ sender: UIButton?) {
         //cscene?.run(clickSound)
         menuDelegate?.MenuViewOnPlay(self)
+    }
+    
+    @objc func onPlay2(_ sender: UIButton?) {
+        //cscene?.run(clickSound)
+        menuDelegate?.MenuViewOnPlay2(self)
     }
     
     // MARK: Private methods

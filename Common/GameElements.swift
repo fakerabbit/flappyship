@@ -109,14 +109,14 @@ extension GameScene {
         taptoplayLbl.text = "Tap anywhere to play"
         taptoplayLbl.fontColor = UIColor(red: 63/255, green: 79/255, blue: 145/255, alpha: 1.0)
         taptoplayLbl.zPosition = 5
-        taptoplayLbl.fontSize = 20
+        taptoplayLbl.fontSize = 24
         taptoplayLbl.fontName = "Hermes-Regular"
         return taptoplayLbl
     }
     
     func createWalls() -> SKNode  {
 
-        let flowerNode = SKSpriteNode(imageNamed: "flower")
+        let flowerNode = SKSpriteNode(imageNamed: "prize")
         flowerNode.size = CGSize(width: 40, height: 40)
         flowerNode.position = CGPoint(x: self.frame.width + 25, y: self.frame.height / 2)
         flowerNode.physicsBody = SKPhysicsBody(rectangleOf: flowerNode.size)
@@ -126,6 +126,10 @@ extension GameScene {
         flowerNode.physicsBody?.collisionBitMask = 0
         flowerNode.physicsBody?.contactTestBitMask = CollisionBitMask.birdCategory
         flowerNode.color = SKColor.blue
+        
+        let oneRevolution = SKAction.rotate(toAngle: CGFloat(Double.pi * 2), duration: 5.0)
+        let repeatAction = SKAction.repeatForever(oneRevolution)
+        flowerNode.run(repeatAction)
 
         wallPair = SKNode()
         wallPair.name = "wallPair"
@@ -272,7 +276,7 @@ extension ParallaxView {
                 bullet: bullet,
                 toDestination: bulletDestination,
                 withDuration: 1.0,
-                andSoundFileName: "CoinSound.mp3"
+                andSoundFileName: "shoot.mp3"
             )
         }
     }

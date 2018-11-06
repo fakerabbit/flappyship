@@ -23,6 +23,10 @@ extension GameScene {
         let bird = SKSpriteNode(texture: SKTextureAtlas(named:"ship").textureNamed("ship1"))
         bird.size = CGSize(width: 50, height: 50)
         bird.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
+        if let particles = SKEmitterNode(fileNamed: "LFire.sks") {
+            particles.position = CGPoint(x: -30, y: 0)
+            bird.addChild(particles)
+        }
 
         bird.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.width / 2)
         bird.physicsBody?.linearDamping = 1.1
@@ -77,7 +81,7 @@ extension GameScene {
 
     func createHighscoreLabel() -> SKLabelNode {
         let highscoreLbl = SKLabelNode()
-        highscoreLbl.position = CGPoint(x: self.frame.width - 80, y: self.frame.height - 22)
+        highscoreLbl.position = CGPoint(x: self.frame.width - 80, y: self.frame.height - 42)
         if let highestScore = UserDefaults.standard.object(forKey: "highestScore"){
             highscoreLbl.text = "Highest Score: \(highestScore)"
         } else {

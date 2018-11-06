@@ -11,9 +11,14 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    // MARK:- VARS
+    
     var isGameStarted = Bool(false)
     var isDied = Bool(false)
-    let coinSound = SKAction.playSoundFileNamed("CoinSound.mp3", waitForCompletion: false)
+    let shipSound = SKAction.playSoundFileNamed("flypast.mp3", waitForCompletion: false)
+    let coinSound = SKAction.playSoundFileNamed("coin.mp3", waitForCompletion: false)
+    let laughSound = SKAction.playSoundFileNamed("laugh.mp3", waitForCompletion: false)
+    let explosionSound = SKAction.playSoundFileNamed("ShipExplosion.mp3", waitForCompletion: false)
     
     var score = Int(0)
     var scoreLbl = SKLabelNode()
@@ -31,10 +36,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var bird = SKSpriteNode()
     var repeatActionBird = SKAction()
     
+    // MARK:- SKScene Methods
+    
     override func didMove(to view: SKView) {
+        run(shipSound)
         createScene()
     }
-    
     
     func touchDown(atPoint pos : CGPoint) {
     
@@ -70,10 +77,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(self.wallPair)
             })
 
-            let delay = SKAction.wait(forDuration: 1.5)
+            let delay = SKAction.wait(forDuration: 3.0)
             let SpawnDelay = SKAction.sequence([spawn, delay])
             let spawnDelayForever = SKAction.repeatForever(SpawnDelay)
-            self.run(spawnDelayForever)
+            run(spawnDelayForever)
 
             let distance = CGFloat(self.frame.width + wallPair.frame.width)
             let movePillars = SKAction.moveBy(x: -distance - 50, y: 0, duration: TimeInterval(0.008 * distance))
@@ -152,6 +159,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // MARK:- Private Methods
+    
     func createScene(){
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
         self.physicsBody?.categoryBitMask = CollisionBitMask.groundCategory
@@ -211,9 +220,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if isDied == false{
                 isDied = true
+                run(explosionSound)
+                let delay = SKAction.wait(forDuration: 2.0)
+                let deathDelay = SKAction.sequence([laughSound, delay])
+                run(deathDelay)
                 createRestartBtn()
                 pauseBtn.removeFromParent()
                 self.bird.removeAllActions()
+                if let particles = SKEmitterNode(fileNamed: "Smoke.sks") {
+                    particles.position = CGPoint(x: 0, y: -5)
+                    bird.addChild(particles)
+                }
             }
             
         } else if firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.flowerCategory {

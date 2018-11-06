@@ -15,6 +15,7 @@
 		AC2E1011218FADF2001C703B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC2E100F218FADF2001C703B /* Main.storyboard */; };
 		AC2E1013218FADF3001C703B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC2E1012218FADF3001C703B /* Assets.xcassets */; };
 		AC2E1016218FADF3001C703B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC2E1014218FADF3001C703B /* LaunchScreen.storyboard */; };
+		AC8137E82191286A00E60EBF /* LFire.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC8137E72191286A00E60EBF /* LFire.sks */; };
 		AC980772218FB01600A1A3FB /* CoinSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AC980771218FB01600A1A3FB /* CoinSound.mp3 */; };
 		AC980774218FB03300A1A3FB /* player.atlas in Resources */ = {isa = PBXBuildFile; fileRef = AC980773218FB03300A1A3FB /* player.atlas */; };
 		AC980777218FB19600A1A3FB /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980776218FB19600A1A3FB /* MenuViewController.swift */; };
@@ -39,6 +40,7 @@
 		AC2E1012218FADF3001C703B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC2E1015218FADF3001C703B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC2E1017218FADF3001C703B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC8137E72191286A00E60EBF /* LFire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LFire.sks; sourceTree = "<group>"; };
 		AC980771218FB01600A1A3FB /* CoinSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = CoinSound.mp3; path = Resources/CoinSound.mp3; sourceTree = SOURCE_ROOT; };
 		AC980773218FB03300A1A3FB /* player.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = player.atlas; path = Resources/player.atlas; sourceTree = SOURCE_ROOT; };
 		AC980776218FB19600A1A3FB /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				AC2E1014218FADF3001C703B /* LaunchScreen.storyboard */,
 				AC2E1017218FADF3001C703B /* Info.plist */,
 				AC98078A218FF5BF00A1A3FB /* Fire.sks */,
+				AC8137E72191286A00E60EBF /* LFire.sks */,
 				AC98078C218FFB7D00A1A3FB /* Bullet.sks */,
 			);
 			path = FlappyShip;
@@ -207,6 +210,7 @@
 				AC980774218FB03300A1A3FB /* player.atlas in Resources */,
 				AC2E1016218FADF3001C703B /* LaunchScreen.storyboard in Resources */,
 				AC2E100A218FADF2001C703B /* Actions.sks in Resources */,
+				AC8137E82191286A00E60EBF /* LFire.sks in Resources */,
 				AC980785218FE21300A1A3FB /* ship.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

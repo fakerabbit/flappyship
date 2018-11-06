@@ -24,15 +24,17 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     var player: SKSpriteNode!
     var start:(location:CGPoint, time:TimeInterval)?
     var tapQueue = [Int]()
+    let shipSound = SKAction.playSoundFileNamed("flypast.mp3", waitForCompletion: false)
     
     override func didMove(to view: SKView) {
         //createSky()
+        run(shipSound)
         player = SKSpriteNode(imageNamed: "ship")
         player.name = kShipName
         player.size = CGSize(width: 50, height: 50)
-        player.position = CGPoint(x: self.frame.size.width / 2, y: player.size.height / 2 + 20)
+        player.position = CGPoint(x: self.frame.size.width / 2, y: player.size.height / 2 + 45)
         if let particles = SKEmitterNode(fileNamed: "Fire.sks") {
-            particles.position = CGPoint(x: 0, y: -15)
+            particles.position = CGPoint(x: 0, y: -25)
             player.addChild(particles)
         }
         self.addChild(player)
@@ -96,10 +98,10 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
                     impulse = -40
                 case (-1,0):
                     print("swiped left")
-                    impulse = -40
+                    impulse = -80
                 case (1,0):
                     print("swiped right")
-                    impulse = 40
+                    impulse = 80
                 case (1,1):
                     print("swiped diag up-right")
                     impulse = 40

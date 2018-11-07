@@ -20,6 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let laughSound = SKAction.playSoundFileNamed("laugh.mp3", waitForCompletion: false)
     let explosionSound = SKAction.playSoundFileNamed("ShipExplosion.mp3", waitForCompletion: false)
     
+    var bgNumber = 0
     var score = Int(0)
     var scoreLbl = SKLabelNode()
     var highscoreLbl = SKLabelNode()
@@ -39,6 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK:- SKScene Methods
     
     override func didMove(to view: SKView) {
+        bgNumber = Int.random(in: 1 ... 8)
         run(shipSound)
         createScene()
     }
@@ -173,7 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = SKColor(red: 80.0/255.0, green: 192.0/255.0, blue: 203.0/255.0, alpha: 1.0)
         
         for i in 0..<2 {
-            let background = SKSpriteNode(imageNamed: "bg")
+            let background = SKSpriteNode(imageNamed: "bg\(bgNumber)")
             background.anchorPoint = CGPoint.init(x: 0, y: 0)
             background.position = CGPoint(x:CGFloat(i) * self.frame.width, y:0)
             background.name = "background"

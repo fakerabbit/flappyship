@@ -29,7 +29,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var pauseBtn = SKSpriteNode()
     var logoImg = SKSpriteNode()
     var wallPair = SKNode()
+    var enemy = SKNode()
     var moveAndRemove = SKAction()
+    var moveAndRemoveEnemy = SKAction()
     
     //CREATE THE BIRD ATLAS FOR ANIMATION
     let birdAtlas = SKTextureAtlas(named:"ship")
@@ -74,6 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             self.bird.run(repeatActionBird)
             
+            // walls
             let spawn = SKAction.run({ () in
                 self.wallPair = self.createWalls()
                 self.addChild(self.wallPair)
@@ -88,6 +91,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let movePillars = SKAction.moveBy(x: -distance - 50, y: 0, duration: TimeInterval(0.008 * distance))
             let removePillars = SKAction.removeFromParent()
             moveAndRemove = SKAction.sequence([movePillars, removePillars])
+            
+            //enemies
+            let enemySpawn = SKAction.run({ () in
+                self.enemy = self.createEnemy()
+                self.addChild(self.enemy)
+            })
+            
+            let enemyDelay = SKAction.wait(forDuration: 5.0)
+            let enemySpawnDelay = SKAction.sequence([enemySpawn, enemyDelay])
+            let enemyspawnDelayForever = SKAction.repeatForever(enemySpawnDelay)
+            run(enemyspawnDelayForever)
+            
+            let enemyDistance = CGFloat(self.frame.width + self.enemy.frame.width)
+            let moveEnemy = SKAction.moveBy(x: -enemyDistance - 50, y: 0, duration: TimeInterval(0.002 * enemyDistance))
+            let removeEnemy = SKAction.removeFromParent()
+            moveAndRemoveEnemy = SKAction.sequence([moveEnemy, removeEnemy])
             
             bird.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             bird.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 40))
@@ -213,12 +232,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let firstBody = contact.bodyA
         let secondBody = contact.bodyB
         
-        if firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.pillarCategory || firstBody.categoryBitMask == CollisionBitMask.pillarCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory || firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.groundCategory || firstBody.categoryBitMask == CollisionBitMask.groundCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory{
+        if firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.pillarCategory || firstBody.categoryBitMask == CollisionBitMask.pillarCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory || firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.groundCategory || firstBody.categoryBitMask == CollisionBitMask.groundCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory ||
+            firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.enemyCategory ||
+            firstBody.categoryBitMask == CollisionBitMask.enemyCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory {
+            
             enumerateChildNodes(withName: "wallPair", using: ({
                 (node, error) in
                 node.speed = 0
                 self.removeAllActions()
             }))
+            
+            if firstBody.node?.name == "enemy" {
+                firstBody.node?.removeFromParent()
+            } else if secondBody.node?.name == "enemy" {
+                secondBody.node?.removeFromParent()
+            }
             
             if isDied == false{
                 isDied = true
@@ -229,6 +257,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 createRestartBtn()
                 pauseBtn.removeFromParent()
                 self.bird.removeAllActions()
+                self.enemy.removeAllActions()
                 if let particles = SKEmitterNode(fileNamed: "Smoke.sks") {
                     particles.position = CGPoint(x: 0, y: -5)
                     bird.addChild(particles)

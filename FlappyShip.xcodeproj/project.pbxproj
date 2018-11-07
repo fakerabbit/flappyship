@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC1CC9C1219280CF003FE077 /* Boss.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC1CC9C0219280CF003FE077 /* Boss.sks */; };
+		AC1CC9C321929031003FE077 /* lazer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AC1CC9C221929031003FE077 /* lazer.mp3 */; };
 		AC2E1006218FADF2001C703B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2E1005218FADF2001C703B /* AppDelegate.swift */; };
 		AC2E1008218FADF2001C703B /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC2E1007218FADF2001C703B /* GameScene.sks */; };
 		AC2E100A218FADF2001C703B /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC2E1009218FADF2001C703B /* Actions.sks */; };
@@ -15,6 +17,7 @@
 		AC2E1011218FADF2001C703B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC2E100F218FADF2001C703B /* Main.storyboard */; };
 		AC2E1013218FADF3001C703B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC2E1012218FADF3001C703B /* Assets.xcassets */; };
 		AC2E1016218FADF3001C703B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC2E1014218FADF3001C703B /* LaunchScreen.storyboard */; };
+		AC3AFA6421927FD3002526D1 /* Enemy.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC3AFA6321927FD3002526D1 /* Enemy.sks */; };
 		AC8137E82191286A00E60EBF /* LFire.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC8137E72191286A00E60EBF /* LFire.sks */; };
 		AC8137EB21913D8700E60EBF /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AC8137EA21913D8700E60EBF /* coin.mp3 */; };
 		AC8137ED21913F2300E60EBF /* shoot.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AC8137EC21913F2300E60EBF /* shoot.mp3 */; };
@@ -34,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC1CC9C0219280CF003FE077 /* Boss.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Boss.sks; sourceTree = "<group>"; };
+		AC1CC9C221929031003FE077 /* lazer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = lazer.mp3; path = Resources/Audio/lazer.mp3; sourceTree = SOURCE_ROOT; };
 		AC2E1002218FADF2001C703B /* FlappyShip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlappyShip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC2E1005218FADF2001C703B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC2E1007218FADF2001C703B /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -44,6 +49,7 @@
 		AC2E1012218FADF3001C703B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC2E1015218FADF3001C703B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC2E1017218FADF3001C703B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC3AFA6321927FD3002526D1 /* Enemy.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Enemy.sks; sourceTree = "<group>"; };
 		AC8137E72191286A00E60EBF /* LFire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LFire.sks; sourceTree = "<group>"; };
 		AC8137EA21913D8700E60EBF /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = coin.mp3; path = Resources/Audio/coin.mp3; sourceTree = SOURCE_ROOT; };
 		AC8137EC21913F2300E60EBF /* shoot.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = shoot.mp3; path = Resources/Audio/shoot.mp3; sourceTree = SOURCE_ROOT; };
@@ -103,6 +109,8 @@
 				AC2E1014218FADF3001C703B /* LaunchScreen.storyboard */,
 				AC2E1017218FADF3001C703B /* Info.plist */,
 				AC98078A218FF5BF00A1A3FB /* Fire.sks */,
+				AC3AFA6321927FD3002526D1 /* Enemy.sks */,
+				AC1CC9C0219280CF003FE077 /* Boss.sks */,
 				AC8137F0219142A200E60EBF /* Smoke.sks */,
 				AC8137E72191286A00E60EBF /* LFire.sks */,
 				AC98078C218FFB7D00A1A3FB /* Bullet.sks */,
@@ -113,6 +121,7 @@
 		AC8137E921913CD000E60EBF /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				AC1CC9C221929031003FE077 /* lazer.mp3 */,
 				AC8137EE2191402600E60EBF /* ShipExplosion.mp3 */,
 				AC8137F42191454C00E60EBF /* flypast.mp3 */,
 				AC8137F2219143ED00E60EBF /* laugh.mp3 */,
@@ -220,8 +229,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC1CC9C1219280CF003FE077 /* Boss.sks in Resources */,
 				AC8137EF2191402600E60EBF /* ShipExplosion.mp3 in Resources */,
 				AC8137F92191487A00E60EBF /* ship.atlas in Resources */,
+				AC3AFA6421927FD3002526D1 /* Enemy.sks in Resources */,
+				AC1CC9C321929031003FE077 /* lazer.mp3 in Resources */,
 				AC2E1011218FADF2001C703B /* Main.storyboard in Resources */,
 				AC98078D218FFB7D00A1A3FB /* Bullet.sks in Resources */,
 				AC2E1008218FADF2001C703B /* GameScene.sks in Resources */,

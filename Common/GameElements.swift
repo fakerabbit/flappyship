@@ -14,6 +14,7 @@ struct CollisionBitMask {
     static let pillarCategory:UInt32 = 0x1 << 1
     static let flowerCategory:UInt32 = 0x1 << 2
     static let groundCategory:UInt32 = 0x1 << 3
+    static let enemyCategory:UInt32 = 0x1 << 4
 }
 
 extension GameScene {
@@ -173,6 +174,28 @@ extension GameScene {
         return wallPair
     }
     
+    func createEnemy() -> SKNode  {
+        
+        enemy = SKEmitterNode(fileNamed: "Enemy.sks")!
+        enemy.name = "enemy"
+        let min: CGFloat = 25
+        let max = self.frame.size.height - min
+        let randomNumCGFloat = CGFloat.random(min: min, max: max)
+        enemy.position = CGPoint(x: self.frame.width + 25, y: randomNumCGFloat)
+        
+        enemy.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 10))
+        enemy.physicsBody?.categoryBitMask = CollisionBitMask.enemyCategory
+        enemy.physicsBody?.collisionBitMask = CollisionBitMask.birdCategory
+        enemy.physicsBody?.contactTestBitMask = CollisionBitMask.birdCategory
+        enemy.physicsBody?.isDynamic = false
+        enemy.physicsBody?.affectedByGravity = false
+        
+        enemy.run(SKAction.playSoundFileNamed("lazer", waitForCompletion: false))
+        enemy.run(moveAndRemoveEnemy)
+        
+        return enemy
+    }
+    
     func random() -> CGFloat{
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
@@ -289,5 +312,42 @@ extension ParallaxView {
             }
             tapQueue.remove(at: 0)
         }
+    }
+}
+
+public extension Float {
+    
+    /// Returns a random floating point number between 0.0 and 1.0, inclusive.
+    public static var random: Float {
+        return Float(arc4random()) / 0xFFFFFFFF
+    }
+    
+    /// Random float between 0 and n-1.
+    ///
+    /// - Parameter n:  Interval max
+    /// - Returns:      Returns a random float point number between 0 and n max
+    public static func random(min: Float, max: Float) -> Float {
+        return Float.random * (max - min) + min
+    }
+}
+
+public extension CGFloat {
+    
+    /// Randomly returns either 1.0 or -1.0.
+    public static var randomSign: CGFloat {
+        return (arc4random_uniform(2) == 0) ? 1.0 : -1.0
+    }
+    
+    /// Returns a random floating point number between 0.0 and 1.0, inclusive.
+    public static var random: CGFloat {
+        return CGFloat(Float.random)
+    }
+    
+    /// Random CGFloat between 0 and n-1.
+    ///
+    /// - Parameter n:  Interval max
+    /// - Returns:      Returns a random CGFloat point number between 0 and n max
+    public static func random(min: CGFloat, max: CGFloat) -> CGFloat {
+        return CGFloat.random * (max - min) + min
     }
 }

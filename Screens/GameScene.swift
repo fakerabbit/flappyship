@@ -22,6 +22,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var bgNumber = 0
     var score = Int(0)
+    var scoreThreshold = 2
+    var threshold = 0
+    var pillarVel: CGFloat = 0.008
+    
     var scoreLbl = SKLabelNode()
     var highscoreLbl = SKLabelNode()
     var taptoplayLbl = SKLabelNode()
@@ -166,8 +170,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        if isGameStarted == true{
-            if isDied == false{
+        if isGameStarted == true {
+            if isDied == false {
                 enumerateChildNodes(withName: "background", using: ({
                     (node, error) in
                     let bg = node as! SKSpriteNode
@@ -176,6 +180,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         bg.position = CGPoint(x:bg.position.x + bg.size.width * 2, y:bg.position.y)
                     }
                 }))
+                
+                if threshold == scoreThreshold {
+                    debugPrint("threshold: \(threshold)")
+                    debugPrint("scoreThreshold: \(scoreThreshold)")
+                    debugPrint("threshold == scoreThreshold")
+                    scoreThreshold += 2
+                    pillarVel -= 0.001
+                    debugPrint("pillarVel: \(pillarVel)")
+                    
+                    let distance = CGFloat(self.frame.width + wallPair.frame.width)
+                    let movePillars = SKAction.moveBy(x: -distance - 50, y: 0, duration: TimeInterval(pillarVel * distance))
+                    let removePillars = SKAction.removeFromParent()
+                    moveAndRemove = SKAction.sequence([movePillars, removePillars])
+                }
             }
         }
     }
@@ -183,6 +201,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK:- Private Methods
     
     func createScene(){
+        threshold = 0
+        scoreThreshold = 2
+        pillarVel = 0.008
+        
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
         self.physicsBody?.categoryBitMask = CollisionBitMask.groundCategory
         self.physicsBody?.collisionBitMask = CollisionBitMask.birdCategory
@@ -268,6 +290,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             run(coinSound)
             score += 1
+            threshold += 1
             scoreLbl.text = "\(score)"
             secondBody.node?.removeFromParent()
             
@@ -275,6 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             run(coinSound)
             score += 1
+            threshold += 1
             scoreLbl.text = "\(score)"
             firstBody.node?.removeFromParent()
             

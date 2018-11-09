@@ -23,7 +23,7 @@ extension GameScene {
 
         let bird = SKSpriteNode(texture: SKTextureAtlas(named:"ship").textureNamed("ship1"))
         bird.size = CGSize(width: 50, height: 50)
-        bird.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
+        bird.position = CGPoint(x:self.frame.midX / 2, y:self.frame.midY)
         if let particles = SKEmitterNode(fileNamed: "LFire.sks") {
             particles.position = CGPoint(x: -30, y: 0)
             bird.addChild(particles)
@@ -214,22 +214,16 @@ extension ParallaxView {
     
     func createShip() -> SKSpriteNode {
         
-        let bird = SKSpriteNode(texture: SKTextureAtlas(named:"ship").textureNamed("ship1"))
-        bird.size = CGSize(width: 50, height: 50)
-        bird.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
+        let ship = SKSpriteNode(imageNamed: "ship")
+        ship.name = kShipName
+        ship.size = CGSize(width: 50, height: 50)
+        ship.position = CGPoint(x: self.frame.size.width / 2, y: ship.size.height / 2 + 45)
+        if let particles = SKEmitterNode(fileNamed: "Fire.sks") {
+            particles.position = CGPoint(x: 0, y: -25)
+            ship.addChild(particles)
+        }
         
-        bird.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.width / 2)
-        bird.physicsBody?.linearDamping = 1.1
-        bird.physicsBody?.restitution = 0
-        
-        bird.physicsBody?.categoryBitMask = CollisionBitMask.birdCategory
-        bird.physicsBody?.collisionBitMask = CollisionBitMask.pillarCategory | CollisionBitMask.groundCategory
-        bird.physicsBody?.contactTestBitMask = CollisionBitMask.pillarCategory | CollisionBitMask.flowerCategory | CollisionBitMask.groundCategory
-        
-        bird.physicsBody?.affectedByGravity = false
-        bird.physicsBody?.isDynamic = true
-        
-        return bird
+        return ship
     }
     
     func createSky() {
@@ -247,6 +241,19 @@ extension ParallaxView {
         
         bottomSky.zPosition = -40
         topSky.zPosition = -40
+    }
+    
+    func createTaptoplayLabel() -> SKLabelNode {
+        let taptoplayLbl = SKLabelNode()
+        taptoplayLbl.position = CGPoint(x:self.frame.midX, y:self.frame.midY - 100)
+        taptoplayLbl.text = "Swipe left or right to move\nTap to shoot"
+        taptoplayLbl.numberOfLines = 2
+        taptoplayLbl.horizontalAlignmentMode = .center
+        taptoplayLbl.fontColor = UIColor(red: 63/255, green: 79/255, blue: 145/255, alpha: 1.0)
+        taptoplayLbl.zPosition = 5
+        taptoplayLbl.fontSize = 24
+        taptoplayLbl.fontName = "Hermes-Regular"
+        return taptoplayLbl
     }
     
     func makeBullet(ofType bulletType: BulletType) -> SKNode {

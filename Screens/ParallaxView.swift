@@ -11,6 +11,12 @@ import GameplayKit
 
 class ParallaxView: SKScene, SKPhysicsContactDelegate {
     
+    // MARK:- VARS
+    
+    var isGameStarted = Bool(false)
+    var isDied = Bool(false)
+    var taptoplayLbl = SKLabelNode()
+    
     var xAcceleration:CGFloat = 0
     let minDistance:CGFloat = 25
     let minSpeed:CGFloat = 1000
@@ -29,18 +35,11 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         //createSky()
         run(shipSound)
-        player = SKSpriteNode(imageNamed: "ship")
-        player.name = kShipName
-        player.size = CGSize(width: 50, height: 50)
-        player.position = CGPoint(x: self.frame.size.width / 2, y: player.size.height / 2 + 45)
-        if let particles = SKEmitterNode(fileNamed: "Fire.sks") {
-            particles.position = CGPoint(x: 0, y: -25)
-            player.addChild(particles)
+        if let particles = SKEmitterNode(fileNamed: "Stars.sks") {
+            particles.position = CGPoint(x: 0, y: self.frame.size.height)
+            self.addChild(particles)
         }
-        self.addChild(player)
-        
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        self.physicsWorld.contactDelegate = self
+        createScene()
     }
     
     
@@ -60,8 +59,18 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
         
-        if let touch = touches.first {
-            start = (touch.location(in:self), touch.timestamp)
+        if isGameStarted == false{
+            
+            isGameStarted =  true
+            taptoplayLbl.removeFromParent()
+            
+        } else {
+            if isDied == false {
+                
+                if let touch = touches.first {
+                    start = (touch.location(in:self), touch.timestamp)
+                }
+            }
         }
     }
     
@@ -136,7 +145,12 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        processUserTaps(forUpdate: currentTime)
+        if isGameStarted == true {
+            if isDied == false {
+                
+                processUserTaps(forUpdate: currentTime)
+            }
+        }
     }
 
     /*
@@ -146,6 +160,20 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         // Drawing code
     }
     */
+    
+    // MARK:- Private Methods
+    
+    func createScene(){
+        
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        self.physicsWorld.contactDelegate = self
+        
+        taptoplayLbl = createTaptoplayLabel()
+        self.addChild(taptoplayLbl)
+        
+        self.player = createShip()
+        self.addChild(player)
+    }
     
     override func didSimulatePhysics() {
         
@@ -157,6 +185,14 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
             player.position = CGPoint(x: -20, y: player.position.y)
         }
         
+    }
+    
+    func restartScene(){
+        
+        self.removeAllChildren()
+        self.removeAllActions()
+        isDied = false
+        isGameStarted = false
     }
 
 }

@@ -8,6 +8,8 @@
 
 import Foundation
 import SpriteKit
+import GameplayKit
+import CoreMotion
 
 struct CollisionBitMask {
     static let birdCategory:UInt32 = 0x1 << 0
@@ -15,6 +17,7 @@ struct CollisionBitMask {
     static let flowerCategory:UInt32 = 0x1 << 2
     static let groundCategory:UInt32 = 0x1 << 3
     static let enemyCategory:UInt32 = 0x1 << 4
+    static let photonTorpedoCategory:UInt32 = 0x1 << 5
 }
 
 extension GameScene {
@@ -223,6 +226,11 @@ extension ParallaxView {
             ship.addChild(particles)
         }
         
+        ship.physicsBody = SKPhysicsBody(circleOfRadius: ship.size.width / 2)
+        ship.physicsBody?.categoryBitMask = CollisionBitMask.birdCategory
+        ship.physicsBody?.collisionBitMask = CollisionBitMask.photonTorpedoCategory | CollisionBitMask.enemyCategory
+        ship.physicsBody?.contactTestBitMask = CollisionBitMask.photonTorpedoCategory | CollisionBitMask.enemyCategory
+        
         return ship
     }
     
@@ -246,7 +254,7 @@ extension ParallaxView {
     func createTaptoplayLabel() -> SKLabelNode {
         let taptoplayLbl = SKLabelNode()
         taptoplayLbl.position = CGPoint(x:self.frame.midX, y:self.frame.midY - 100)
-        taptoplayLbl.text = "Swipe left or right to move\nTap to shoot"
+        taptoplayLbl.text = "Tilt device to move\nTap to shoot"
         taptoplayLbl.numberOfLines = 2
         taptoplayLbl.horizontalAlignmentMode = .center
         taptoplayLbl.fontColor = UIColor(red: 63/255, green: 79/255, blue: 145/255, alpha: 1.0)
@@ -254,6 +262,16 @@ extension ParallaxView {
         taptoplayLbl.fontSize = 24
         taptoplayLbl.fontName = "Hermes-Regular"
         return taptoplayLbl
+    }
+    
+    func createRestartBtn() {
+        restartBtn = SKSpriteNode(imageNamed: "restart")
+        restartBtn.size = CGSize(width:100, height:100)
+        restartBtn.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        restartBtn.zPosition = 6
+        restartBtn.setScale(0)
+        self.addChild(restartBtn)
+        restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
     }
     
     func makeBullet(ofType bulletType: BulletType) -> SKNode {
@@ -276,7 +294,6 @@ extension ParallaxView {
     func fireBullet(bullet: SKNode, toDestination destination: CGPoint, withDuration duration: CFTimeInterval, andSoundFileName soundName: String) {
         let bulletAction = SKAction.sequence([
             SKAction.move(to: destination, duration: duration),
-            SKAction.wait(forDuration: 3.0 / 60.0),
             SKAction.removeFromParent()
             ])
         
@@ -294,20 +311,56 @@ extension ParallaxView {
             let bullet = makeBullet(ofType: .shipFired)
             bullet.position = CGPoint(
                 x: ship.position.x,
-                y: ship.position.y + ship.frame.size.height - bullet.frame.size.height / 2
+                y: ship.position.y + 35
             )
             
             let bulletDestination = CGPoint(
                 x: ship.position.x,
-                y: frame.size.height + bullet.frame.size.height / 2
+                y: frame.size.height + bullet.frame.size.height
             )
+            
+            bullet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 25, height: 25))
+            bullet.physicsBody?.categoryBitMask = CollisionBitMask.photonTorpedoCategory
+            bullet.physicsBody?.contactTestBitMask = CollisionBitMask.enemyCategory
+            bullet.physicsBody?.collisionBitMask = 0
+            bullet.physicsBody?.usesPreciseCollisionDetection = true
             
             fireBullet(
                 bullet: bullet,
                 toDestination: bulletDestination,
-                withDuration: 1.0,
+                withDuration: 0.3,
                 andSoundFileName: "shoot.mp3"
             )
+        }
+    }
+    
+    func fireTorpedo() {
+        
+        run(SKAction.playSoundFileNamed("shoot.mp3", waitForCompletion: false))
+        
+        if let torpedoNode = SKEmitterNode(fileNamed: "Bullet.sks") {
+            
+            torpedoNode.name = kShipFiredBulletName
+            //let torpedoNode = SKSpriteNode(imageNamed: "torpedo")
+            torpedoNode.position = player.position
+            torpedoNode.position.y += 5
+            
+            torpedoNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 10))
+            torpedoNode.physicsBody?.isDynamic = true
+            
+            torpedoNode.physicsBody?.categoryBitMask = CollisionBitMask.photonTorpedoCategory
+            torpedoNode.physicsBody?.contactTestBitMask = CollisionBitMask.enemyCategory
+            torpedoNode.physicsBody?.collisionBitMask = 0
+            torpedoNode.physicsBody?.usesPreciseCollisionDetection = true
+            
+            addChild(torpedoNode)
+            
+            let animationDuration:TimeInterval = 0.3
+            var actionArray = [SKAction]()
+            actionArray.append(SKAction.move(to: CGPoint(x: player.position.x, y: self.frame.size.height + 10), duration: animationDuration))
+            actionArray.append(SKAction.removeFromParent())
+            
+            torpedoNode.run(SKAction.sequence(actionArray))
         }
     }
     
@@ -319,6 +372,39 @@ extension ParallaxView {
             }
             tapQueue.remove(at: 0)
         }
+    }
+    
+    @objc func addAsteroid () {
+        possibleAsteroids = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAsteroids) as! [String]
+        
+        let alien = SKSpriteNode(imageNamed: possibleAsteroids[0])
+        alien.name = kInvaderFiredBulletName
+        
+        let randomAlienPosition = GKRandomDistribution(lowestValue: 0, highestValue: 414)
+        let position = CGFloat(randomAlienPosition.nextInt())
+        
+        alien.position = CGPoint(x: position, y: self.frame.size.height + alien.size.height)
+        
+        alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
+        alien.physicsBody?.isDynamic = true
+        
+        alien.physicsBody?.categoryBitMask = CollisionBitMask.enemyCategory
+        alien.physicsBody?.contactTestBitMask = CollisionBitMask.photonTorpedoCategory
+        alien.physicsBody?.collisionBitMask = 0
+        
+        self.addChild(alien)
+        
+        let animationDuration:TimeInterval = 6
+        
+        var actionArray = [SKAction]()
+        
+        
+        actionArray.append(SKAction.move(to: CGPoint(x: position, y: -alien.size.height), duration: animationDuration))
+        actionArray.append(SKAction.removeFromParent())
+        
+        alien.run(SKAction.sequence(actionArray))
+        
+        
     }
 }
 

@@ -8,6 +8,7 @@
 
 import UIKit
 import GameplayKit
+import CoreMotion
 
 class ParallaxView: SKScene, SKPhysicsContactDelegate {
     
@@ -16,7 +17,10 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     var isGameStarted = Bool(false)
     var isDied = Bool(false)
     var taptoplayLbl = SKLabelNode()
+    var gameTimer:Timer!
+    var restartBtn = SKSpriteNode()
     
+    let motionManger = CMMotionManager()
     var xAcceleration:CGFloat = 0
     let minDistance:CGFloat = 25
     let minSpeed:CGFloat = 1000
@@ -31,14 +35,17 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     var start:(location:CGPoint, time:TimeInterval)?
     var tapQueue = [Int]()
     let shipSound = SKAction.playSoundFileNamed("flypast.mp3", waitForCompletion: false)
+    let explosionSound = SKAction.playSoundFileNamed("ShipExplosion.mp3", waitForCompletion: false)
+    let laughSound = SKAction.playSoundFileNamed("laugh.mp3", waitForCompletion: false)
+    var starfield:SKEmitterNode!
+    var possibleAsteroids = ["asteroid1", "asteroid2"]
+    
+    // MARK:- Scene Methods
     
     override func didMove(to view: SKView) {
         //createSky()
         run(shipSound)
-        if let particles = SKEmitterNode(fileNamed: "Stars.sks") {
-            particles.position = CGPoint(x: 0, y: self.frame.size.height)
-            self.addChild(particles)
-        }
+        
         createScene()
     }
     
@@ -72,6 +79,18 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            
+            if isDied == true{
+                if restartBtn.contains(location) {
+                    
+                    restartScene()
+                }
+                
+            }
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -100,28 +119,20 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
                 
                 switch (x,y) {
                 case (0,1):
-                    print("swiped up")
                     impulse = 40
                 case (0,-1):
-                    print("swiped down")
                     impulse = -40
                 case (-1,0):
-                    print("swiped left")
                     impulse = -80
                 case (1,0):
-                    print("swiped right")
                     impulse = 80
                 case (1,1):
-                    print("swiped diag up-right")
                     impulse = 40
                 case (-1,-1):
-                    print("swiped diag down-left")
                     impulse = -40
                 case (-1,1):
-                    print("swiped diag up-left")
                     impulse = -40
                 case (1,-1):
-                    print("swiped diag down-right")
                     impulse = 40
                 default:
                     swiped = false
@@ -134,8 +145,8 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         start = nil
         if !swiped {
             // Process non-swipes (taps, etc.)
-            print("not a swipe")
             tapQueue.append(1)
+            //fireTorpedo();
         }
     }
     
@@ -152,6 +163,54 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let firstBody = contact.bodyA
+        let secondBody = contact.bodyB
+        
+        if firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.enemyCategory
+            || firstBody.categoryBitMask == CollisionBitMask.enemyCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory {
+            
+            if firstBody.node?.name == kInvaderFiredBulletName {
+                firstBody.node?.removeFromParent()
+            } else if secondBody.node?.name == kInvaderFiredBulletName {
+                secondBody.node?.removeFromParent()
+            }
+            
+            run(explosionSound)
+            
+            if isDied == false{
+                isDied = true
+                motionManger.stopAccelerometerUpdates()
+                let delay = SKAction.wait(forDuration: 2.0)
+                let deathDelay = SKAction.sequence([laughSound, delay])
+                run(deathDelay)
+                createRestartBtn()
+                self.player.removeAllActions()
+                //self.enemy.removeAllActions()
+                if let particles = SKEmitterNode(fileNamed: "Smoke.sks") {
+                    particles.position = CGPoint(x: 0, y: -5)
+                    player.addChild(particles)
+                }
+            }
+        }
+        else if firstBody.categoryBitMask == CollisionBitMask.photonTorpedoCategory && secondBody.categoryBitMask == CollisionBitMask.enemyCategory
+        || firstBody.categoryBitMask == CollisionBitMask.enemyCategory && secondBody.categoryBitMask == CollisionBitMask.photonTorpedoCategory {
+            
+            let explosion = SKEmitterNode(fileNamed: "Smoke")!
+            explosion.position = firstBody.node!.position
+            self.addChild(explosion)
+            
+            self.run(SKAction.playSoundFileNamed("ShipExplosion.mp3", waitForCompletion: false))
+            
+            firstBody.node?.removeFromParent()
+            secondBody.node?.removeFromParent()
+            
+            self.run(SKAction.wait(forDuration: 1)) {
+                explosion.removeFromParent()
+            }
+        }
+    }
 
     /*
     // Only override draw() if you perform custom drawing.
@@ -163,7 +222,14 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     
     // MARK:- Private Methods
     
-    func createScene(){
+    func createScene() {
+        
+        starfield = SKEmitterNode(fileNamed: "Starfield")
+        starfield.position = CGPoint(x: 0, y: self.frame.size.height)
+        starfield.advanceSimulationTime(10)
+        self.addChild(starfield)
+        
+        starfield.zPosition = -1
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
@@ -173,6 +239,16 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         self.player = createShip()
         self.addChild(player)
+        
+        gameTimer = Timer.scheduledTimer(timeInterval: 2.75, target: self, selector: #selector(addAsteroid), userInfo: nil, repeats: true)
+        
+        motionManger.accelerometerUpdateInterval = 0.2
+        motionManger.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
+            if let accelerometerData = data {
+                let acceleration = accelerometerData.acceleration
+                self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25
+            }
+        }
     }
     
     override func didSimulatePhysics() {
@@ -193,6 +269,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         self.removeAllActions()
         isDied = false
         isGameStarted = false
+        
+        createScene()
     }
-
-}
+} 

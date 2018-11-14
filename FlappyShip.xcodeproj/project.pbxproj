@@ -34,6 +34,7 @@
 		AC980789218FE4EC00A1A3FB /* ParallaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC980788218FE4EC00A1A3FB /* ParallaxView.swift */; };
 		AC98078B218FF5BF00A1A3FB /* Fire.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC98078A218FF5BF00A1A3FB /* Fire.sks */; };
 		AC98078D218FFB7D00A1A3FB /* Bullet.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC98078C218FFB7D00A1A3FB /* Bullet.sks */; };
+		AC99679A219BC7F300AA426C /* Magic.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC996799219BC7F300AA426C /* Magic.sks */; };
 		ACB0321621952EB8007E4E36 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACB0321521952EB8007E4E36 /* Starfield.sks */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		AC980788218FE4EC00A1A3FB /* ParallaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxView.swift; sourceTree = "<group>"; };
 		AC98078A218FF5BF00A1A3FB /* Fire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Fire.sks; sourceTree = "<group>"; };
 		AC98078C218FFB7D00A1A3FB /* Bullet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Bullet.sks; sourceTree = "<group>"; };
+		AC996799219BC7F300AA426C /* Magic.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Magic.sks; sourceTree = "<group>"; };
 		ACB0321521952EB8007E4E36 /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 				AC98078A218FF5BF00A1A3FB /* Fire.sks */,
 				AC3AFA6321927FD3002526D1 /* Enemy.sks */,
 				AC1CC9C0219280CF003FE077 /* Boss.sks */,
+				AC996799219BC7F300AA426C /* Magic.sks */,
 				AC8137F0219142A200E60EBF /* Smoke.sks */,
 				AC8137E72191286A00E60EBF /* LFire.sks */,
 				AC98078C218FFB7D00A1A3FB /* Bullet.sks */,
@@ -242,6 +245,7 @@
 				AC98078D218FFB7D00A1A3FB /* Bullet.sks in Resources */,
 				AC2E1008218FADF2001C703B /* GameScene.sks in Resources */,
 				AC98078B218FF5BF00A1A3FB /* Fire.sks in Resources */,
+				AC99679A219BC7F300AA426C /* Magic.sks in Resources */,
 				AC2E1013218FADF3001C703B /* Assets.xcassets in Resources */,
 				AC8137F52191454C00E60EBF /* flypast.mp3 in Resources */,
 				AC98077E218FC49800A1A3FB /* Hermes-Regular.otf in Resources */,

@@ -18,6 +18,14 @@ struct CollisionBitMask {
     static let groundCategory:UInt32 = 0x1 << 3
     static let enemyCategory:UInt32 = 0x1 << 4
     static let photonTorpedoCategory:UInt32 = 0x1 << 5
+    static let bossCategory:UInt32 = 0x1 << 6
+    static let bossFireCategory:UInt32 = 0x1 << 7
+}
+
+enum BossMovementDirection {
+    case right
+    case left
+    case none
 }
 
 extension GameScene {
@@ -26,7 +34,7 @@ extension GameScene {
 
         let bird = SKSpriteNode(texture: SKTextureAtlas(named:"ship").textureNamed("ship1"))
         bird.size = CGSize(width: 50, height: 50)
-        bird.position = CGPoint(x:self.frame.midX / 2, y:self.frame.midY)
+        bird.position = CGPoint(x: self.frame.midX / 2, y: self.frame.midY)
         if let particles = SKEmitterNode(fileNamed: "LFire.sks") {
             particles.position = CGPoint(x: -30, y: 0)
             bird.addChild(particles)
@@ -234,6 +242,26 @@ extension ParallaxView {
         return ship
     }
     
+    func createBoss() -> SKSpriteNode {
+        
+        let ship = SKSpriteNode(imageNamed: "boss")
+        ship.name = kBossName
+        ship.size = CGSize(width: 100, height: 100)
+        ship.position = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height - 70)
+        if let particles = SKEmitterNode(fileNamed: "Magic.sks") {
+            particles.position = CGPoint(x: 0, y: 25)
+            particles.zPosition = -1
+            ship.addChild(particles)
+        }
+        
+        ship.physicsBody = SKPhysicsBody(circleOfRadius: ship.size.width / 2)
+        ship.physicsBody?.categoryBitMask = CollisionBitMask.bossCategory
+        ship.physicsBody?.collisionBitMask = CollisionBitMask.photonTorpedoCategory | CollisionBitMask.birdCategory
+        ship.physicsBody?.contactTestBitMask = CollisionBitMask.photonTorpedoCategory | CollisionBitMask.birdCategory
+        
+        return ship
+    }
+    
     func createSky() {
         let topSky = SKSpriteNode(color: UIColor(hue: 0.55, saturation: 0.14, brightness: 0.97, alpha: 1), size: CGSize(width: frame.width, height: frame.height * 0.67))
         topSky.anchorPoint = CGPoint(x: 0.5, y: 1)
@@ -311,7 +339,7 @@ extension ParallaxView {
             let bullet = makeBullet(ofType: .shipFired)
             bullet.position = CGPoint(
                 x: ship.position.x,
-                y: ship.position.y + 35
+                y: ship.position.y + 40
             )
             
             let bulletDestination = CGPoint(
@@ -330,6 +358,35 @@ extension ParallaxView {
                 toDestination: bulletDestination,
                 withDuration: 0.3,
                 andSoundFileName: "shoot.mp3"
+            )
+        }
+    }
+    
+    func fireBossBullets() {
+        
+        if let ship = childNode(withName: kBossName) {
+            let bullet = makeBullet(ofType: .invaderFired)
+            bullet.position = CGPoint(
+                x: ship.position.x,
+                y: ship.position.y - 40
+            )
+            
+            let bulletDestination = CGPoint(
+                x: ship.position.x,
+                y: -100
+            )
+            
+            bullet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
+            bullet.physicsBody?.categoryBitMask = CollisionBitMask.bossFireCategory
+            bullet.physicsBody?.contactTestBitMask = CollisionBitMask.birdCategory
+            bullet.physicsBody?.collisionBitMask = 0
+            bullet.physicsBody?.usesPreciseCollisionDetection = true
+            
+            fireBullet(
+                bullet: bullet,
+                toDestination: bulletDestination,
+                withDuration: 0.3,
+                andSoundFileName: "lazer.mp3"
             )
         }
     }

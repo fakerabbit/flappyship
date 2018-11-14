@@ -25,13 +25,17 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     let minDistance:CGFloat = 25
     let minSpeed:CGFloat = 1000
     let maxSpeed:CGFloat = 6000
+    var timeOfLastShot: CFTimeInterval = 0.0
+    let timePerShot: CFTimeInterval = 2.0
     
     let kShipName = "ship"
+    let kBossName = "boss"
     let kShipFiredBulletName = "shipFiredBullet"
     let kInvaderFiredBulletName = "invaderFiredBullet"
     let kBulletSize = CGSize(width:4, height: 8)
     
     var player: SKSpriteNode!
+    var boss: SKSpriteNode!
     var start:(location:CGPoint, time:TimeInterval)?
     var tapQueue = [Int]()
     let shipSound = SKAction.playSoundFileNamed("flypast.mp3", waitForCompletion: false)
@@ -39,6 +43,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     let laughSound = SKAction.playSoundFileNamed("laugh.mp3", waitForCompletion: false)
     var starfield:SKEmitterNode!
     var possibleAsteroids = ["asteroid1", "asteroid2"]
+    var bossMovementDirection: BossMovementDirection = .right
     
     // MARK:- Scene Methods
     
@@ -157,8 +162,8 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if isGameStarted == true {
+            moveBoss(forUpdate: currentTime)
             if isDied == false {
-                
                 processUserTaps(forUpdate: currentTime)
             }
         }
@@ -169,7 +174,9 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         let secondBody = contact.bodyB
         
         if firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.enemyCategory
-            || firstBody.categoryBitMask == CollisionBitMask.enemyCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory {
+            || firstBody.categoryBitMask == CollisionBitMask.enemyCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory
+            || firstBody.categoryBitMask == CollisionBitMask.birdCategory && secondBody.categoryBitMask == CollisionBitMask.bossFireCategory
+            || firstBody.categoryBitMask == CollisionBitMask.bossFireCategory && secondBody.categoryBitMask == CollisionBitMask.birdCategory {
             
             if firstBody.node?.name == kInvaderFiredBulletName {
                 firstBody.node?.removeFromParent()
@@ -182,6 +189,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
             if isDied == false{
                 isDied = true
                 motionManger.stopAccelerometerUpdates()
+                gameTimer.invalidate()
                 let delay = SKAction.wait(forDuration: 2.0)
                 let deathDelay = SKAction.sequence([laughSound, delay])
                 run(deathDelay)
@@ -249,6 +257,9 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
                 self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25
             }
         }
+        
+        self.boss = createBoss()
+        self.addChild(boss)
     }
     
     override func didSimulatePhysics() {
@@ -257,19 +268,48 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         if player.position.x < -20 {
             player.position = CGPoint(x: self.size.width + 20, y: player.position.y)
-        }else if player.position.x > self.size.width + 20 {
+        }
+        else if player.position.x > self.size.width + 20 {
             player.position = CGPoint(x: -20, y: player.position.y)
         }
         
     }
     
     func restartScene(){
-        
         self.removeAllChildren()
         self.removeAllActions()
         isDied = false
         isGameStarted = false
-        
         createScene()
+    }
+    
+    func moveBoss(forUpdate currentTime: CFTimeInterval) {
+        
+        let dx:CGFloat = 5
+        let maxX:CGFloat = 50
+        
+        if bossMovementDirection == .right {
+            
+            boss.position = CGPoint(x: boss.position.x + dx, y: self.frame.size.height - 70)
+            
+            if boss.position.x + maxX > self.frame.size.width {
+                bossMovementDirection = .left
+            }
+            
+        } else {
+            
+            boss.position = CGPoint(x: boss.position.x - dx, y: self.frame.size.height - 70)
+            
+            if boss.position.x - maxX <= 0 {
+                bossMovementDirection = .right
+            }
+        }
+        
+        if (currentTime - timeOfLastShot < timePerShot) {
+            return
+        }
+        
+        fireBossBullets()
+        timeOfLastShot = currentTime
     }
 } 

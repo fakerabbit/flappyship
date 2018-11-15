@@ -18,9 +18,14 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     var isBossOnScene = Bool(false)
     var isDied = Bool(false)
     var taptoplayLbl = SKLabelNode()
-    var gameTimer = Timer()
+    var gameTimer : Timer? = nil {
+        willSet {
+            gameTimer?.invalidate()
+        }
+    }
     var restartBtn = SKSpriteNode()
     var scoreLbl = SKLabelNode()
+    var progressBar: ProgressBar!
     
     let motionManger = CMMotionManager()
     var xAcceleration:CGFloat = 0
@@ -207,8 +212,10 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
             if !isDied {
                 isDied = true
                 motionManger.stopAccelerometerUpdates()
-                gameTimer.invalidate()
-                gameTimer = Timer()
+                if gameTimer != nil {
+                    gameTimer!.invalidate()
+                    gameTimer = nil
+                }
                 let delay = SKAction.wait(forDuration: 2.0)
                 let deathDelay = SKAction.sequence([laughSound, delay])
                 run(deathDelay)
@@ -240,6 +247,13 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
                 explosion.removeFromParent()
             }
         }
+        else if firstBody.categoryBitMask == CollisionBitMask.photonTorpedoCategory && secondBody.categoryBitMask == CollisionBitMask.bossCategory
+            || firstBody.categoryBitMask == CollisionBitMask.bossCategory && secondBody.categoryBitMask == CollisionBitMask.photonTorpedoCategory {
+            
+            progressBar.progress = 10
+            score += 1
+            scoreLbl.text = "\(score)"
+        }
     }
 
     /*
@@ -269,6 +283,9 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         scoreLbl = createScoreLabel()
         self.addChild(scoreLbl)
+        
+        progressBar = createProgressBar()
+        self.addChild(progressBar)
         
         self.player = createShip()
         self.addChild(player)

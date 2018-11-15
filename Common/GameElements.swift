@@ -321,6 +321,12 @@ extension ParallaxView {
         return scoreLbl
     }
     
+    func createProgressBar() -> ProgressBar {
+        let bar = ProgressBar()
+        bar.position = CGPoint(x: self.frame.size.width - (bar.size.width / 2 + 5), y: self.frame.height - (bar.size.height + 30))
+        return bar
+    }
+    
     func makeBullet(ofType bulletType: BulletType) -> SKNode {
         //let bullet: SKNode = SKSpriteNode(color: SKColor.magenta, size: kBulletSize)
         switch bulletType {

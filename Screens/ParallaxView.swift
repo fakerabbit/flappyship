@@ -20,6 +20,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     var taptoplayLbl = SKLabelNode()
     var gameTimer = Timer()
     var restartBtn = SKSpriteNode()
+    var scoreLbl = SKLabelNode()
     
     let motionManger = CMMotionManager()
     var xAcceleration:CGFloat = 0
@@ -28,6 +29,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     let maxSpeed:CGFloat = 6000
     var timeOfLastShot: CFTimeInterval = 0.0
     let timePerShot: CFTimeInterval = 2.0
+    var score = Int(0)
     
     let kShipName = "ship"
     let kBossName = "boss"
@@ -222,6 +224,9 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         else if firstBody.categoryBitMask == CollisionBitMask.photonTorpedoCategory && secondBody.categoryBitMask == CollisionBitMask.enemyCategory
         || firstBody.categoryBitMask == CollisionBitMask.enemyCategory && secondBody.categoryBitMask == CollisionBitMask.photonTorpedoCategory {
             
+            score += 1
+            scoreLbl.text = "\(score)"
+            
             let explosion = SKEmitterNode(fileNamed: "Smoke")!
             explosion.position = firstBody.node!.position
             self.addChild(explosion)
@@ -262,6 +267,9 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         taptoplayLbl = createTaptoplayLabel()
         self.addChild(taptoplayLbl)
         
+        scoreLbl = createScoreLabel()
+        self.addChild(scoreLbl)
+        
         self.player = createShip()
         self.addChild(player)
         
@@ -285,6 +293,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     func restartScene(){
         self.removeAllChildren()
         self.removeAllActions()
+        score = 0
         isDied = false
         isGameStarted = false
         isBossOnScene = false

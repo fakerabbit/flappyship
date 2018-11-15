@@ -302,6 +302,25 @@ extension ParallaxView {
         restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
     }
     
+    func createScoreLabel() -> SKLabelNode {
+        let scoreLbl = SKLabelNode()
+        scoreLbl.position = CGPoint(x: 27, y: self.frame.height - 32)
+        scoreLbl.text = "\(score)"
+        scoreLbl.zPosition = 5
+        scoreLbl.fontSize = 30
+        scoreLbl.fontName = "Hermes-Regular"
+        
+        let scoreBg = SKShapeNode()
+        scoreBg.position = CGPoint(x: 5, y: 6)
+        scoreBg.path = CGPath(roundedRect: CGRect(x: CGFloat(-30), y: CGFloat(-25), width: CGFloat(50), height: CGFloat(50)), cornerWidth: 30, cornerHeight: 30, transform: nil)
+        let scoreBgColor = UIColor(red: CGFloat(0.0 / 255.0), green: CGFloat(0.0 / 255.0), blue: CGFloat(0.0 / 255.0), alpha: CGFloat(0.2))
+        scoreBg.strokeColor = UIColor.clear
+        scoreBg.fillColor = scoreBgColor
+        scoreBg.zPosition = -1
+        scoreLbl.addChild(scoreBg)
+        return scoreLbl
+    }
+    
     func makeBullet(ofType bulletType: BulletType) -> SKNode {
         //let bullet: SKNode = SKSpriteNode(color: SKColor.magenta, size: kBulletSize)
         switch bulletType {

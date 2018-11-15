@@ -303,20 +303,17 @@ extension ParallaxView {
     }
     
     func makeBullet(ofType bulletType: BulletType) -> SKNode {
-        var bullet: SKNode
-        
+        //let bullet: SKNode = SKSpriteNode(color: SKColor.magenta, size: kBulletSize)
         switch bulletType {
         case .shipFired:
             let particles = SKEmitterNode(fileNamed: "Bullet.sks")
             particles?.name = kShipFiredBulletName
             return particles!
         case .invaderFired:
-            bullet = SKSpriteNode(color: SKColor.magenta, size: kBulletSize)
-            bullet.name = kInvaderFiredBulletName
-            break
+            let particles = SKEmitterNode(fileNamed: "Boss.sks")
+            particles?.name = kShipFiredBulletName
+            return particles!
         }
-        
-        return bullet
     }
     
     func fireBullet(bullet: SKNode, toDestination destination: CGPoint, withDuration duration: CFTimeInterval, andSoundFileName soundName: String) {
@@ -376,7 +373,7 @@ extension ParallaxView {
                 y: -100
             )
             
-            bullet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20, height: 20))
+            bullet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 15, height: 15))
             bullet.physicsBody?.categoryBitMask = CollisionBitMask.bossFireCategory
             bullet.physicsBody?.contactTestBitMask = CollisionBitMask.birdCategory
             bullet.physicsBody?.collisionBitMask = 0

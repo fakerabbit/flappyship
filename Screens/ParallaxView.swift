@@ -43,7 +43,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     let explosionSound = SKAction.playSoundFileNamed("ShipExplosion.mp3", waitForCompletion: false)
     let laughSound = SKAction.playSoundFileNamed("laugh.mp3", waitForCompletion: false)
     var starfield:SKEmitterNode!
-    var possibleAsteroids = ["asteroid1", "asteroid2"]
+    var possibleAsteroids = ["asteroid1", "asteroid2", "asteroid3"]
     var bossMovementDirection: BossMovementDirection = .right
     
     // MARK:- Scene Methods

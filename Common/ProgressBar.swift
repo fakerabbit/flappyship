@@ -11,18 +11,27 @@ import SpriteKit
 
 class ProgressBar: SKSpriteNode {
     
+    typealias ProgressBarOnProgressZero = (Int) -> Void
+    var onProgressZero: ProgressBarOnProgressZero = { progress in }
+    
     var progress:Int! {
         didSet {
             pos -= CGFloat(progress) / 2
             full -= progress
-            if full > 0 {
-                percentage.run(SKAction.moveTo(x: CGFloat(pos), duration: 2.0))
-                percentage.run(SKAction.scale(to: CGSize(width: CGFloat(full), height: 10), duration: 2.0))
+            if full >= 0 {
+                percentage.run(SKAction.moveTo(x: CGFloat(pos), duration: 0.2))
+                percentage.run(SKAction.scale(to: CGSize(width: CGFloat(full), height: 10), duration: 0.2))
             }
         }
     }
     
-    private var full = Int(100)
+    private var full = Int(100) {
+        didSet {
+            if full == 0 {
+                self.onProgressZero(full)
+            }
+        }
+    }
     private var pos = CGFloat(0)
     private var percentage: SKSpriteNode!
     

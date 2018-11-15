@@ -37,6 +37,7 @@
 		AC99679A219BC7F300AA426C /* Magic.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC996799219BC7F300AA426C /* Magic.sks */; };
 		ACB0321621952EB8007E4E36 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACB0321521952EB8007E4E36 /* Starfield.sks */; };
 		ACE24566219D1E84004E6FF7 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE24565219D1E84004E6FF7 /* ProgressBar.swift */; };
+		ACFABC46219E3A08008FF96A /* bossDeath.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = ACFABC45219E3A07008FF96A /* bossDeath.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		AC996799219BC7F300AA426C /* Magic.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Magic.sks; sourceTree = "<group>"; };
 		ACB0321521952EB8007E4E36 /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
 		ACE24565219D1E84004E6FF7 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		ACFABC45219E3A07008FF96A /* bossDeath.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bossDeath.mp3; path = Resources/Audio/bossDeath.mp3; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 		AC8137E921913CD000E60EBF /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				ACFABC45219E3A07008FF96A /* bossDeath.mp3 */,
 				AC1CC9C221929031003FE077 /* lazer.mp3 */,
 				AC8137EE2191402600E60EBF /* ShipExplosion.mp3 */,
 				AC8137F42191454C00E60EBF /* flypast.mp3 */,
@@ -244,6 +247,7 @@
 				AC8137F92191487A00E60EBF /* ship.atlas in Resources */,
 				AC3AFA6421927FD3002526D1 /* Enemy.sks in Resources */,
 				AC1CC9C321929031003FE077 /* lazer.mp3 in Resources */,
+				ACFABC46219E3A08008FF96A /* bossDeath.mp3 in Resources */,
 				AC2E1011218FADF2001C703B /* Main.storyboard in Resources */,
 				AC98078D218FFB7D00A1A3FB /* Bullet.sks in Resources */,
 				AC2E1008218FADF2001C703B /* GameScene.sks in Resources */,

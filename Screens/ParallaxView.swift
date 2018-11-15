@@ -49,6 +49,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     let shipSound = SKAction.playSoundFileNamed("flypast.mp3", waitForCompletion: false)
     let explosionSound = SKAction.playSoundFileNamed("ShipExplosion.mp3", waitForCompletion: false)
     let laughSound = SKAction.playSoundFileNamed("laugh.mp3", waitForCompletion: false)
+    let bossDeathSound = SKAction.playSoundFileNamed("bossDeath.mp3", waitForCompletion: false)
     var starfield:SKEmitterNode!
     var possibleAsteroids = ["asteroid1", "asteroid2", "asteroid3"]
     var bossMovementDirection: BossMovementDirection = .right
@@ -286,6 +287,9 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         progressBar = createProgressBar()
         self.addChild(progressBar)
+        progressBar.onProgressZero = { _ in
+            self.gameWon()
+        }
         
         self.player = createShip()
         self.addChild(player)
@@ -345,5 +349,18 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         fireBossBullets()
         timeOfLastShot = currentTime
+    }
+    
+    func gameWon() {
+        isDied = true
+        motionManger.stopAccelerometerUpdates()
+        if gameTimer != nil {
+            gameTimer!.invalidate()
+            gameTimer = nil
+        }
+        run(bossDeathSound)
+        createRestartBtn()
+        player.removeAllActions()
+        boss.removeAllActions()
     }
 } 

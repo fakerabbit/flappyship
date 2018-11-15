@@ -247,7 +247,7 @@ extension ParallaxView {
         let ship = SKSpriteNode(imageNamed: "boss")
         ship.name = kBossName
         ship.size = CGSize(width: 100, height: 100)
-        ship.position = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height - 70)
+        ship.position = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height + 70)
         if let particles = SKEmitterNode(fileNamed: "Magic.sks") {
             particles.position = CGPoint(x: 0, y: 25)
             particles.zPosition = -1
@@ -399,10 +399,12 @@ extension ParallaxView {
             
             torpedoNode.name = kShipFiredBulletName
             //let torpedoNode = SKSpriteNode(imageNamed: "torpedo")
-            torpedoNode.position = player.position
-            torpedoNode.position.y += 5
+            torpedoNode.position = CGPoint(
+                x: player.position.x,
+                y: player.position.y + 40
+            )
             
-            torpedoNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 10, height: 10))
+            torpedoNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 25, height: 25))
             torpedoNode.physicsBody?.isDynamic = true
             
             torpedoNode.physicsBody?.categoryBitMask = CollisionBitMask.photonTorpedoCategory
@@ -412,9 +414,8 @@ extension ParallaxView {
             
             addChild(torpedoNode)
             
-            let animationDuration:TimeInterval = 0.3
             var actionArray = [SKAction]()
-            actionArray.append(SKAction.move(to: CGPoint(x: player.position.x, y: self.frame.size.height + 10), duration: animationDuration))
+            actionArray.append(SKAction.moveTo(y: self.frame.size.height + 70, duration: 0.3))
             actionArray.append(SKAction.removeFromParent())
             
             torpedoNode.run(SKAction.sequence(actionArray))

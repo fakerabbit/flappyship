@@ -15,9 +15,10 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     // MARK:- VARS
     
     var isGameStarted = Bool(false)
+    var isBossOnScene = Bool(false)
     var isDied = Bool(false)
     var taptoplayLbl = SKLabelNode()
-    var gameTimer:Timer!
+    var gameTimer = Timer()
     var restartBtn = SKSpriteNode()
     
     let motionManger = CMMotionManager()
@@ -71,13 +72,28 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
         
-        if isGameStarted == false{
+        if !isBossOnScene {
+            
+            boss.run(SKAction.moveTo(y: self.frame.size.height - 70, duration: 2.0), completion: {
+                self.isBossOnScene = true
+                self.gameTimer = Timer.scheduledTimer(timeInterval: 2.75, target: self, selector: #selector(self.addAsteroid), userInfo: nil, repeats: true)
+                self.motionManger.accelerometerUpdateInterval = 0.2
+            })
+        }
+        
+        if !isGameStarted {
             
             isGameStarted =  true
             taptoplayLbl.removeFromParent()
+            motionManger.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
+                if let accelerometerData = data {
+                    let acceleration = accelerometerData.acceleration
+                    self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25
+                }
+            }
             
         } else {
-            if isDied == false {
+            if !isDied {
                 
                 if let touch = touches.first {
                     start = (touch.location(in:self), touch.timestamp)
@@ -87,10 +103,8 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         for touch in touches {
             let location = touch.location(in: self)
-            
-            if isDied == true{
+            if isDied {
                 if restartBtn.contains(location) {
-                    
                     restartScene()
                 }
                 
@@ -150,8 +164,10 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         start = nil
         if !swiped {
             // Process non-swipes (taps, etc.)
-            tapQueue.append(1)
-            //fireTorpedo();
+            if isGameStarted {
+                //tapQueue.append(1)
+                fireTorpedo();
+            }
         }
     }
     
@@ -161,11 +177,11 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        if isGameStarted == true {
-            moveBoss(forUpdate: currentTime)
-            if isDied == false {
-                processUserTaps(forUpdate: currentTime)
+        if isGameStarted && !isDied {
+            if isBossOnScene {
+                moveBoss(forUpdate: currentTime)
             }
+            processUserTaps(forUpdate: currentTime)
         }
     }
     
@@ -186,16 +202,17 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
             
             run(explosionSound)
             
-            if isDied == false{
+            if !isDied {
                 isDied = true
                 motionManger.stopAccelerometerUpdates()
                 gameTimer.invalidate()
+                gameTimer = Timer()
                 let delay = SKAction.wait(forDuration: 2.0)
                 let deathDelay = SKAction.sequence([laughSound, delay])
                 run(deathDelay)
                 createRestartBtn()
-                self.player.removeAllActions()
-                //self.enemy.removeAllActions()
+                player.removeAllActions()
+                boss.removeAllActions()
                 if let particles = SKEmitterNode(fileNamed: "Smoke.sks") {
                     particles.position = CGPoint(x: 0, y: -5)
                     player.addChild(particles)
@@ -248,16 +265,6 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         self.player = createShip()
         self.addChild(player)
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 2.75, target: self, selector: #selector(addAsteroid), userInfo: nil, repeats: true)
-        
-        motionManger.accelerometerUpdateInterval = 0.2
-        motionManger.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
-            if let accelerometerData = data {
-                let acceleration = accelerometerData.acceleration
-                self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25
-            }
-        }
-        
         self.boss = createBoss()
         self.addChild(boss)
     }
@@ -280,6 +287,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         self.removeAllActions()
         isDied = false
         isGameStarted = false
+        isBossOnScene = false
         createScene()
     }
     

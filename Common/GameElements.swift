@@ -176,7 +176,7 @@ extension GameScene {
         
         wallPair.zPosition = 1
 
-        let randomPosition = random(min: -200, max: 200)
+        let randomPosition = Utils.random(min: -200, max: 200)
         wallPair.position.y = wallPair.position.y +  randomPosition
         wallPair.addChild(flowerNode)
         
@@ -205,14 +205,6 @@ extension GameScene {
         enemy.run(moveAndRemoveEnemy)
         
         return enemy
-    }
-    
-    func random() -> CGFloat{
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    func random(min : CGFloat, max : CGFloat) -> CGFloat{
-        return random() * (max - min) + min
     }
 }
 

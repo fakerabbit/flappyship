@@ -82,7 +82,8 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         
         if !isBossOnScene {
             
-            boss.run(SKAction.moveTo(y: self.frame.size.height - 70, duration: 2.0), completion: {
+            let randomPosition = Utils.random(min: 0, max: self.frame.size.width)
+            boss.run(SKAction.move(to: CGPoint(x: randomPosition, y: self.frame.size.height - 70), duration: 1.2), completion: {
                 self.isBossOnScene = true
                 self.gameTimer = Timer.scheduledTimer(timeInterval: 2.75, target: self, selector: #selector(self.addAsteroid), userInfo: nil, repeats: true)
                 self.motionManger.accelerometerUpdateInterval = 0.2
@@ -172,7 +173,7 @@ class ParallaxView: SKScene, SKPhysicsContactDelegate {
         start = nil
         if !swiped {
             // Process non-swipes (taps, etc.)
-            if isGameStarted {
+            if isGameStarted && isBossOnScene && !isDied {
                 //tapQueue.append(1)
                 fireTorpedo();
             }

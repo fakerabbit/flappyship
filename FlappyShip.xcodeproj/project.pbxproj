@@ -38,6 +38,7 @@
 		ACB0321621952EB8007E4E36 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACB0321521952EB8007E4E36 /* Starfield.sks */; };
 		ACE24566219D1E84004E6FF7 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE24565219D1E84004E6FF7 /* ProgressBar.swift */; };
 		ACFABC46219E3A08008FF96A /* bossDeath.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = ACFABC45219E3A07008FF96A /* bossDeath.mp3 */; };
+		ACFABC48219E3FF4008FF96A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFABC47219E3FF4008FF96A /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		ACB0321521952EB8007E4E36 /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
 		ACE24565219D1E84004E6FF7 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		ACFABC45219E3A07008FF96A /* bossDeath.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bossDeath.mp3; path = Resources/Audio/bossDeath.mp3; sourceTree = SOURCE_ROOT; };
+		ACFABC47219E3FF4008FF96A /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			children = (
 				AC980780218FCD6300A1A3FB /* GameElements.swift */,
 				ACE24565219D1E84004E6FF7 /* ProgressBar.swift */,
+				ACFABC47219E3FF4008FF96A /* Utils.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				AC2E100C218FADF2001C703B /* GameScene.swift in Sources */,
 				AC2E100E218FADF2001C703B /* GameViewController.swift in Sources */,
 				ACE24566219D1E84004E6FF7 /* ProgressBar.swift in Sources */,
+				ACFABC48219E3FF4008FF96A /* Utils.swift in Sources */,
 				AC2E1006218FADF2001C703B /* AppDelegate.swift in Sources */,
 				AC980789218FE4EC00A1A3FB /* ParallaxView.swift in Sources */,
 				AC980787218FE4D500A1A3FB /* ParallaxViewController.swift in Sources */,
